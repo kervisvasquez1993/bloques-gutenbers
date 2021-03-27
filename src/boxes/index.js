@@ -6,12 +6,33 @@ registerBlockType('kervis/boxes', {
         title: 'Boxer',
         icon: 'store',
         categoria: 'kervis',
-        edit: () =>
+        attributes: 
         {
+            headingBox : {
+                type     : 'string',
+                source   : 'html',
+                selector : '.box h2'
+            }
+        },
+        edit: (props) =>
+        {
+            /* extraer el contenido desde props */
+            console.log(props)
+            const { attributes : { headingBox }} = props;
+
+            console.log(headingBox)
+
+            const onChangeHeadingBox = nuevoHeading => 
+            {
+                console.log('nuevo headen')
+            } 
             return ( 
-                <div>
+                <div className="box">
                     <h2>
-                        <RichText/>
+                        <RichText
+                            placeholder="Escriba encabezado"
+                            onChange={onChangeHeadingBox}
+                        />
                     </h2>
                 </div>
             )
