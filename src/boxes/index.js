@@ -1,7 +1,16 @@
 const {registerBlockType} = wp.blocks;
-const {RichText} = wp.editor
+const {RichText, InspectorControls, ColorPalette } = wp.editor
+const {PanelBody} = wp.components
 /* import {ReactComponent as Logo} from '../pizzeria-icon.svg'; */
-
+/* 7 pasos para crear un bloque de gutenbers
+    1---importar el componente en que se utilizara
+    2--- colocar el componente donde deseas utulizar
+    3--- crear una funcion que lea los contenido
+    4--- registarr un atributo
+    5--- extraer el contenido desde el props
+    6--- Guardar el contenido con setAttribute
+    7-- Leer los contenidos guardados en save()
+*/
 registerBlockType('kervis/boxes', {
         title: 'Boxer',
         icon: 'store',
@@ -35,6 +44,21 @@ registerBlockType('kervis/boxes', {
 
             } 
             return ( 
+                <>
+                <InspectorControls>
+                    <PanelBody
+                        title={'Color de fondo'}
+                        initialOpen={true}
+                    />
+                    <div className="componets-base-control">
+                        <div className="components-base-control__field">
+                            <label className="componets-base-control__label">
+                                Color de Texto
+                            </label>
+
+                        </div>
+                    </div>
+                </InspectorControls>
                 <div className="box">
                     <h2>
                         <RichText
@@ -48,9 +72,11 @@ registerBlockType('kervis/boxes', {
                         <RichText 
                         placeholder="Agregar el Texto  nuestro componente"
                         onChange={onChangeTetxoBox}
+                        value= {textoBox}
                         />
                     </p>
                 </div>
+                </>
             )
         },
         save : (props) => {
