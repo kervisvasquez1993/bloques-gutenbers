@@ -26,13 +26,17 @@ registerBlockType('kervis/boxes', {
                 type : 'string',
                 source : 'html',
                 selector: ".box p"
-            }
+            },
+            colorFondo : {
+                type : 'string'
+            },
+
         },
         edit: (props) =>
         {
             /* extraer el contenido desde props */
             
-            const { attributes : { headingBox, textoBox } , setAttributes } = props;
+            const { attributes : { headingBox, textoBox, colorFondo } , setAttributes } = props;
 
             const onChangeTetxoBox = nuevoTexto => {
                     setAttributes({ textoBox : nuevoTexto})
@@ -43,50 +47,58 @@ registerBlockType('kervis/boxes', {
                 setAttributes({headingBox : nuevoHeading})
 
             } 
+
+            const onChangeColorFondo = nuevoColor => {
+                setAttributes({colorFondo : nuevoColor})
+            }
             return ( 
-                <>
-                <InspectorControls>
-                    <PanelBody
-                        title={'Color de fondo'}
-                        initialOpen={true}
-                    />
-                    <div className="componets-base-control">
-                        <div className="components-base-control__field">
-                            <label className="componets-base-control__label">
-                                Color de Texto
-                            </label>
-
-                        </div>
+                
+                <div>
+                    <InspectorControls>
+                         <PanelBody
+                             title={'Color de fondo'}
+                             initialOpen={true}
+                         />
+                         <div className="componets-base-control">
+                             <div className="components-base-control__field">
+                                 <label className="componets-base-control__label">
+                                     Color de Fondo
+                                 </label>
+                                 <ColorPalette 
+                                    onChange={onChangeColorFondo}
+                                 />
+                             </div>
+                         </div>
+                    </InspectorControls> 
+                    <div className="box" style={{ backgroundColor  : colorFondo}}>
+                        <h2>
+                            <RichText
+                                placeholder="Escriba encabezado"
+                                onChange={onChangeHeadingBox}
+                                value = {headingBox}
+                            />
+                        </h2>
+    
+                        <p>
+                            <RichText 
+                            placeholder="Agregar el Texto  nuestro componente"
+                            onChange={onChangeTetxoBox}
+                            value= {textoBox}
+                            />
+                        </p>
                     </div>
-                </InspectorControls>
-                <div className="box">
-                    <h2>
-                        <RichText
-                            placeholder="Escriba encabezado"
-                            onChange={onChangeHeadingBox}
-                            value = {headingBox}
-                        />
-                    </h2>
-
-                    <p>
-                        <RichText 
-                        placeholder="Agregar el Texto  nuestro componente"
-                        onChange={onChangeTetxoBox}
-                        value= {textoBox}
-                        />
-                    </p>
                 </div>
-                </>
+                
             )
         },
         save : (props) => {
            
            console.log(props)
-           const {attributes: {headingBox, textoBox}} = props
+           const {attributes: {headingBox, textoBox, colorFondo}} = props
 
 
             return(
-                <div className="box">
+                <div className="box" style={{backgroundColor : colorFondo}}>
                     <h2>
                         <RichText.Content value={headingBox}
                         />
