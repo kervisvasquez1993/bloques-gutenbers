@@ -8,23 +8,31 @@ registerBlockType('kervis/boxes', {
         categoria: 'kervis',
         attributes: 
         {
-            headingBox : {
-                type     : 'string',
-                source   : 'html',
-                selector : '.box h2'
+            headingBox: {
+                type: "string",
+                source: "html",
+                selector: ".box h2",
+            },
+            textoBox : {
+                type : 'string',
+                source : 'html',
+                selector: ".box p"
             }
         },
         edit: (props) =>
         {
             /* extraer el contenido desde props */
-            console.log(props)
-            const { attributes : { headingBox }} = props;
+            
+            const { attributes : { headingBox, textoBox } , setAttributes } = props;
 
-            console.log(headingBox)
+            const onChangeTetxoBox = nuevoTexto => {
+                    setAttributes({ textoBox : nuevoTexto})
+            }
 
             const onChangeHeadingBox = nuevoHeading => 
             {
-                console.log('nuevo headen')
+                setAttributes({headingBox : nuevoHeading})
+
             } 
             return ( 
                 <div className="box">
@@ -32,14 +40,35 @@ registerBlockType('kervis/boxes', {
                         <RichText
                             placeholder="Escriba encabezado"
                             onChange={onChangeHeadingBox}
+                            value = {headingBox}
                         />
                     </h2>
+
+                    <p>
+                        <RichText 
+                        placeholder="Agregar el Texto  nuestro componente"
+                        onChange={onChangeTetxoBox}
+                        />
+                    </p>
                 </div>
             )
         },
-        save : () => {
+        save : (props) => {
+           
+           console.log(props)
+           const {attributes: {headingBox, textoBox}} = props
+
+
             return(
-                <h2>Desde el front end</h2>
+                <div className="box">
+                    <h2>
+                        <RichText.Content value={headingBox}
+                        />
+                    </h2>
+                    <p>
+                        <RichText.Content value = {textoBox} />
+                    </p>
+                </div>
             )
         }
 
